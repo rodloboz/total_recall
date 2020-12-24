@@ -8,6 +8,22 @@ defmodule TotalRecall.Accounts do
 
   alias TotalRecall.Accounts.User
 
+  @doc false
+  def get_by_email_or_username(string) do
+    from(u in User, where: u.username == ^string or u.email == ^string)
+    |> Repo.one()
+  end
+
+  @doc false
+  def get_by_username(username) when is_nil(username) do
+    nil
+  end
+
+  @doc false
+  def get_by_username(username) do
+    Repo.get_by!(User, username: username)
+  end
+
   @doc """
   Returns the list of users.
 

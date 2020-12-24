@@ -28,6 +28,13 @@ defmodule TotalRecallWeb.Router do
     # live "/", PageLive, :index
 
     get "/", PageController, :index
+
+    # Authentication
+    get "/accounts/signup/", RegistrationController, :new
+    post "/accounts/signup/", RegistrationController, :create
+    get "/accounts/login/", SessionController, :new
+    post "/accounts/login/", SessionController, :create
+    delete "/accounts/logout/", SessionController, :delete
   end
 
   # Other scopes may use custom stacks.

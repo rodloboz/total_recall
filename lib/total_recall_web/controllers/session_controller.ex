@@ -25,7 +25,8 @@ defmodule TotalRecallWeb.SessionController do
         conn
         |> put_flash(:error, "Something went wrong, we could not log you in.")
 
-        render(conn, "new.html")
+        changeset = Accounts.change_user(user)
+        render(conn, "new.html", changeset: changeset)
     end
   end
 
