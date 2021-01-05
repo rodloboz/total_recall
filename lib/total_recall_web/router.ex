@@ -29,7 +29,7 @@ defmodule TotalRecallWeb.Router do
 
     scope "/" do
       pipe_through :browser
-      live_dashboard "/dashboard", metrics: TotalRecallWeb.Telemetry
+      live_dashboard "/admin/telemetry", metrics: TotalRecallWeb.Telemetry
     end
   end
 
@@ -71,6 +71,12 @@ defmodule TotalRecallWeb.Router do
       get "/accounts/settings/confirm_email/:token", UserSettingsController, :confirm_email
     end
 
-    get "/", UserDashboardController, :show
+    scope "/routines" do
+      # get "/new", RoutineController, :new, as: "new_routine"
+      live "/new", RoutineLive.New, :new, as: "new_routine"
+      # live "/:slug", Room.ShowLive, :show, as: "room"
+    end
+
+    get "/dashboard", UserDashboardController, :show
   end
 end

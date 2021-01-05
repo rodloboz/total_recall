@@ -10,6 +10,7 @@ defmodule TotalRecall.Accounts.User do
     field :password, :string, virtual: true
     field :hashed_password, :string
     field :confirmed_at, :naive_datetime
+    has_many :routines, TotalRecall.Routines.Routine, on_delete: :delete_all
 
     timestamps()
   end

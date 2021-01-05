@@ -1,0 +1,89 @@
+<!-- This example requires Tailwind CSS v2.0+ -->
+<div class="max-w-7xl mx-auto mt-8 px-4 sm:px-6 lg:px-8">
+  <!-- We've used 3xl here, but feel free to try other max-widths based on your needs -->
+  <div class="max-w-3xl mx-auto">
+    <!-- Content goes here -->
+    <%= f = form_for @changeset, "#", [phx_change: :validate, phx_submit: :save, class: "space-y-8 divide-y divide-gray-200"] %>
+      <div class="space-y-8 divide-y divide-gray-200">
+        <div>
+          <div>
+            <h3 class="text-lg leading-6 font-medium text-gray-900">
+              Routine
+            </h3>
+            <p class="mt-1 text-sm text-gray-500">
+              Create a new routine.
+            </p>
+          </div>
+
+          <div class="mt-6 grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
+            <div class="sm:col-span-4">
+              <%= label f, :name, "Name", class: "block text-sm font-medium text-gray-700" %>
+              <div class="mt-1">
+                 <%= text_input f, :name, class: "appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm", required: true %>
+              </div>
+              <%= error_tag f, :name %>
+            </div>
+          </div>
+        </div>
+      </div>
+
+       <div class="pt-8">
+        <div>
+          <h3 class="text-lg leading-6 font-medium text-gray-900">
+            Questions
+          </h3>
+          <p class="mt-1 text-sm text-gray-500">
+            Add your routine questions.
+          </p>
+        </div>
+
+        <div class="mt-6 grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
+          <%= inputs_for f, :questions, fn q -> %>
+            <div class="sm:col-span-4">
+              <%= label q, :body, "Question", class: "block text-sm font-medium text-gray-700" %>
+              <div class="mt-1 relative">
+                <%= text_input q, :body, class: "appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm", required: true %>
+                <%= if is_nil(q.data.temp_id) do %>
+                  <button
+                    type="button"
+                    class="absolute top-0 bottom-0 -right-8 my-auto text-gray-500 hover:text-indigo-500"
+                  >
+                    <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                    </svg>
+                  </button>
+                <% else %>
+                  <%= hidden_input q, :temp_id %>
+                  <button
+                    type="button"
+                    class="absolute top-0 bottom-0 -right-8 my-auto text-gray-500 hover:text-indigo-500"
+                    phx-click="remove-question" phx-value-remove="<%= q.data.temp_id %>"
+                  >
+                    <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                    </svg>
+                  </button>
+                <% end %>
+              </div>
+              <%= error_tag q, :body %>
+            </div>
+          <% end %>
+        </div>
+        <div class="mt-4">
+         <a href="#" phx-click="add-question" class="text-indigo-500">Add a question</a>
+        </div>
+      </div>
+
+      <div class="pt-5">
+        <div class="flex justify-end">
+        <%#= link to: Routes.routine_path(@conn, :index) do %>
+          <button type="button" class="bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+            Cancel
+          </button>
+        <%# end %>
+          <%= submit "Save", disabled: !@changeset.valid?, class: "ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" %>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
